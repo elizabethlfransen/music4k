@@ -1,5 +1,6 @@
 package me.elizabethlfransen.music4k
 
+import me.elizabethlfransen.music4k.config.properties.DiscordProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
