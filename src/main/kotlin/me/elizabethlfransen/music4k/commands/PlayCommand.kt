@@ -11,6 +11,7 @@ import discord4j.rest.util.Color
 import me.elizabethlfransen.music4k.commands.core.Command
 import me.elizabethlfransen.music4k.exceptions.CommandException
 import me.elizabethlfransen.music4k.player.PlayerUtil
+import me.elizabethlfransen.music4k.player.addTrackInfo
 import org.reactivestreams.Publisher
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
@@ -51,9 +52,7 @@ class PlayCommand(
                             EmbedCreateSpec.builder()
                                 .color(Color.WHITE)
                                 .title("Added Song to Queue")
-                                .addField("Title", track.title, false)
-                                .addField("Author", track.author, false)
-                                .url(track.uri)
+                                .addTrackInfo(track)
                                 .build()
                         )
                         .build()

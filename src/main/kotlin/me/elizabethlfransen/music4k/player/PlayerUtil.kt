@@ -5,9 +5,11 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo
 import discord4j.core.`object`.entity.Guild
 import discord4j.core.`object`.entity.Member
 import discord4j.core.`object`.entity.channel.VoiceChannel
+import discord4j.core.spec.EmbedCreateSpec
 import discord4j.core.spec.VoiceChannelJoinSpec
 import discord4j.voice.AudioProvider
 import discord4j.voice.VoiceConnection
@@ -86,4 +88,11 @@ class PlayerUtil(
             }))
         }
     }
+}
+
+fun EmbedCreateSpec.Builder.addTrackInfo(track: AudioTrackInfo): EmbedCreateSpec.Builder {
+    return this
+        .addField("Title", track.title, false)
+        .addField("Author", track.author, false)
+        .url(track.uri)
 }
