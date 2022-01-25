@@ -53,7 +53,7 @@ class PlayCommand(
                                 .title("Added Song to Queue")
                                 .addField("Title", track.title, false)
                                 .addField("Author", track.author, false)
-                                .thumbnail(track.uri)
+                                .url(track.uri)
                                 .build()
                         )
                         .build()

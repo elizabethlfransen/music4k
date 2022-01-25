@@ -1,3 +1,5 @@
 discord:
   token: your_token_here
   guild: your_guild_here
+audio:
+  default-volume: 5
