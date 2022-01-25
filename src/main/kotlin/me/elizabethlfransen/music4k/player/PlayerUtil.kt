@@ -37,7 +37,7 @@ class PlayerUtil(
     fun joinMemberIfNotConnected(member: Member): Mono<Pair<VoiceChannel, VoiceConnection>> {
         return isConnected()
             .flatMap { connected ->
-                if(connected)
+                if (connected)
                     Mono.empty()
                 else
                     joinMember(member)
@@ -59,8 +59,9 @@ class PlayerUtil(
             }
     }
 
-    fun queue(identifier: String): Mono<AudioTrack> {
-        return Mono.create { resolver ->
+
+    fun queue(identifier: String, retryAsSearch: Boolean = true): Mono<AudioTrack> {
+        return Mono.create<AudioTrack?> { resolver ->
             manager.loadItem(identifier, (object : AudioLoadResultHandler {
                 override fun trackLoaded(track: AudioTrack) {
                     scheduler.queue(track)
@@ -87,6 +88,12 @@ class PlayerUtil(
                 }
             }))
         }
+            .switchIfEmpty {
+                if (retryAsSearch)
+                    queue("ytmsearch:$identifier", false)
+                else
+                    Mono.empty()
+            }
     }
 }
 
