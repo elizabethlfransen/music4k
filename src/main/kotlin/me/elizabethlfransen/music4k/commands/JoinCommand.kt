@@ -3,14 +3,14 @@ package me.elizabethlfransen.music4k.commands
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent
 import discord4j.discordjson.json.ApplicationCommandRequest
 import me.elizabethlfransen.music4k.commands.core.Command
-import me.elizabethlfransen.music4k.exceptions.CommandException
+import me.elizabethlfransen.music4k.player.PlayerUtil
 import org.reactivestreams.Publisher
 import org.springframework.stereotype.Service
-import reactor.kotlin.core.publisher.switchIfEmpty
-import reactor.kotlin.core.publisher.toMono
 
 @Service
-class JoinCommand : Command {
+class JoinCommand(
+    private val playerUtil: PlayerUtil
+) : Command {
     override val spec: ApplicationCommandRequest
         get() = ApplicationCommandRequest.builder()
             .name("join")
@@ -18,10 +18,8 @@ class JoinCommand : Command {
             .build()
 
     override fun execute(event: ChatInputInteractionEvent): Publisher<*> {
-        return event.interaction.member.get().voiceState
-            .switchIfEmpty { CommandException("You are not connected to a voice channel").toMono() }
-            .flatMap { vs -> vs.channel }
-            .flatMap { c -> c.join().map { c} }
+        return playerUtil.joinMember(event.interaction.member.get())
+            .map { it.first }
             .flatMap { event.reply("Joined ${it.name}") }
     }
 }

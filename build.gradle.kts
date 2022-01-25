@@ -20,6 +20,8 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven("https://m2.dv8tion.net/releases")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -34,6 +36,7 @@ dependencies {
     implementation("io.projectreactor:reactor-core")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     testImplementation("io.projectreactor:reactor-test")
+    implementation("com.github.walkyst:lavaplayer-fork:1.3.97")
 }
 
 tasks.withType<KotlinCompile> {
